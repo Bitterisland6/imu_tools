@@ -13,10 +13,10 @@ complementary_filter_gain_node:
     publish_debug_topics: false
     
     qos_overrides:
-      imu/data_raw:
-        subscribtion:
+      /imu/data_raw:
+        subscription:
           depth: 10
-          durability: "volatile"
-          history: "keep_last"
-          reliability: "reliable"
+          durability: volatile
+          history: keep_last
+          reliability: reliable
 
