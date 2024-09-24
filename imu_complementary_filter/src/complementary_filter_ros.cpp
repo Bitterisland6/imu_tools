@@ -70,20 +70,21 @@ ComplementaryFilterROS::ComplementaryFilterROS()
 
     // Register IMU raw data subscriber.
     rclcpp::SubscriptionOptions sub_opts;
-    sub_opts.qos_overriding_options = rclcpp::QosOverridingOptions {
-          {
-            rclcpp::QosPolicyKind::Depth,
-            rclcpp::QosPolicyKind::Durability,
-            rclcpp::QosPolicyKind::History,
-            rclcpp::QosPolicyKind::Reliability,
-          }};
+    sub_opts.qos_overriding_options = rclcpp::QosOverridingOptions{{
+        rclcpp::QosPolicyKind::Depth,
+        rclcpp::QosPolicyKind::Durability,
+        rclcpp::QosPolicyKind::History,
+        rclcpp::QosPolicyKind::Reliability,
+    }};
 
-    imu_subscriber_.reset(new ImuSubscriber(this, "imu/data_raw", rmw_qos_profile_default, sub_opts));
+    imu_subscriber_.reset(new ImuSubscriber(this, "imu/data_raw",
+                                            rmw_qos_profile_default, sub_opts));
 
     // Register magnetic data subscriber.
     if (use_mag_)
     {
-        mag_subscriber_.reset(new MagSubscriber(this, "imu/mag", rmw_qos_profile_default, sub_opts));
+        mag_subscriber_.reset(new MagSubscriber(
+            this, "imu/mag", rmw_qos_profile_default, sub_opts));
 
         sync_.reset(new Synchronizer(SyncPolicy(queue_size), *imu_subscriber_,
                                      *mag_subscriber_));
